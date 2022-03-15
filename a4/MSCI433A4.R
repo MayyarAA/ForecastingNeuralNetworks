@@ -1,28 +1,21 @@
 #MSCI 433 Assignment 4
 library(dplyr)
-library(ggplot)
 library(ggplot2)
+library(caret)
 #Q1. 
 
 dailykosCSV = read.csv("/Users/mayyaral-atari/Desktop/work/uni/msci433/assignments/a4/DailyKos.csv")
-#dailykosCSV
 dkDist = dist(dailykosCSV, method="euclidean")
-koscluster = hclust(dkDist, method="ward.D2")
-kosHierClust
-hierGroups = cutree(koscluster, k = 6, h = NULL)
-cluster1 = dailykosCSV %>% filter(hierGroups == 1)
+dkscluster = hclust(dkDist, method="ward.D2")
+dkCutTree = cutree(dkscluster, k = 6, h = NULL)
+cluster1 = dailykosCSV %>% filter(dkCutTree == 1)
+cluster2 = dailykosCSV %>% filter(dkCutTree == 2)
+cluster3 = dailykosCSV %>% filter(dkCutTree == 3)
+cluster4 = dailykosCSV %>% filter(dkCutTree == 4)
+cluster5 = dailykosCSV %>% filter(dkCutTree == 5)
+cluster6 = dailykosCSV %>% filter(dkCutTree == 6)
 
-cluster2 = dailykosCSV %>% filter(hierGroups == 2)
-
-cluster3 = dailykosCSV %>% filter(hierGroups == 3)
-
-cluster4 = dailykosCSV %>% filter(hierGroups == 4)
-
-cluster5 = dailykosCSV %>% filter(hierGroups == 5)
-
-cluster6 = dailykosCSV %>% filter(hierGroups == 6)
-
-plot(hierGroups)
+plot(dkCutTree)
 
 #Q1.a.iv) 
 val1 = tail(sort(colMeans(cluster1)))
@@ -45,19 +38,12 @@ print(val6)
 
 
 kmeansDK = kmeans(dailykosCSV, centers = 6)
-
-kmcluster1 = dailykosCSV %>% filter(kmeansDK$cluster == 1)
-
-kmcluster2 = dailykosCSV %>% filter(kmeansDK$cluster == 2)
-
-kmcluster3 = dailykosCSV %>% filter(kmeansDK$cluster == 3)
-
+kmcluster2 = dailykosCSV %>% filter(kmeansDK$cluster == 1)
+kmcluster1 = dailykosCSV %>% filter(kmeansDK$cluster == 2)
+kmcluster5 = dailykosCSV %>% filter(kmeansDK$cluster == 3)
 kmcluster4 = dailykosCSV %>% filter(kmeansDK$cluster == 4)
-
-kmcluster5 = dailykosCSV %>% filter(kmeansDK$cluster == 5)
-
-kmcluster6 = dailykosCSV %>% filter(kmeansDK$cluster == 6)
-table(kmeansDK$cluster)
+kmcluster6 = dailykosCSV %>% filter(kmeansDK$cluster == 5)
+kmcluster3 = dailykosCSV %>% filter(kmeansDK$cluster == 6)
 
 
 
@@ -75,11 +61,35 @@ print(kmval5)
 kmval6 = tail(sort(colMeans(kmcluster6)))
 print(kmval6)
 
+
+#Q1.c)
+
+#Hierical clustering with 4 clusters
+dkCutTreePartC = cutree(dkscluster, k = 4, h = NULL)
+partCcluster1PartCHC = dailykosCSV %>% filter(dkCutTreePartC == 1)
+partCcluster2PartCHC = dailykosCSV %>% filter(dkCutTreePartC == 2)
+partCcluster3PartCHC = dailykosCSV %>% filter(dkCutTreePartC == 3)
+partCcluster4PartCHC = dailykosCSV %>% filter(dkCutTreePartC == 4)
+plot(dkCutTreePartC)
+
+#kmeans clustering 4 clusters
+partckmeansDK = kmeans(dailykosCSV, centers = 4)
+partckmcluster1 = dailykosCSV %>% filter(partckmeansDK$cluster == 1)
+partckmcluster2 = dailykosCSV %>% filter(partckmeansDK$cluster == 2)
+partckmcluster3 = dailykosCSV %>% filter(partckmeansDK$cluster == 3)
+partckmcluster4 = dailykosCSV %>% filter(partckmeansDK$cluster == 4)
+table(partckmeansDK$cluster)
+
 #################################################################################
 #Q2)
+hubwayCSV = read.csv("/Users/mayyaral-atari/Desktop/work/uni/msci433/assignments/a4/HubwayTrips.csv")
+#Q2.a.i)
 
 
+#Q2.b.i)
+kmeansHW = kmeans(hubwayCSV, centers = 10)
 
+#Q2.c.i)
 
 
 
