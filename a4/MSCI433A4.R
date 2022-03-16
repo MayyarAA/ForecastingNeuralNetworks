@@ -83,13 +83,25 @@ table(partckmeansDK$cluster)
 #################################################################################
 #Q2)
 hubwayCSV = read.csv("/Users/mayyaral-atari/Desktop/work/uni/msci433/assignments/a4/HubwayTrips.csv")
-#Q2.a.i)
-
-
+#Q2.a.ii)
+hubwayinfo = preProcess(hubwayCSV)
+normalizehubway = predict(hubwayinfo,hubwayCSV)
+print(summary(normalizehubway))
 #Q2.b.i)
-kmeansHW = kmeans(hubwayCSV, centers = 10)
-
+kmeansHW = kmeans(normalizehubway, centers = 10)
+hubwaykmcluster1 = normalizehubway %>% filter(kmeansHW$cluster == 1)
+hubwaykmcluster2 = normalizehubway %>% filter(kmeansHW$cluster == 2)
+hubwaykmcluster3 = normalizehubway %>% filter(kmeansHW$cluster == 3)
+hubwaykmcluster4 = normalizehubway %>% filter(kmeansHW$cluster == 4)
+hubwaykmcluster5 = normalizehubway %>% filter(kmeansHW$cluster == 5)
+hubwaykmcluster6 = normalizehubway %>% filter(kmeansHW$cluster == 6)
+hubwaykmcluster7 = normalizehubway %>% filter(kmeansHW$cluster == 7)
+hubwaykmcluster8 = normalizehubway %>% filter(kmeansHW$cluster == 8)
+hubwaykmcluster9 = normalizehubway %>% filter(kmeansHW$cluster == 9)
+hubwaykmcluster10 = normalizehubway %>% filter(kmeansHW$cluster == 10)
 #Q2.c.i)
+hubwaykmcluster1centriod = colMeans(hubwaykmcluster1)
+print(hubwaykmcluster1centriod)
 
 
 
