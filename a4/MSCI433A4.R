@@ -2,6 +2,7 @@
 library(dplyr)
 library(ggplot2)
 library(caret)
+library(cluster)
 #Q1. 
 
 dailykosCSV = read.csv("/Users/mayyaral-atari/Desktop/work/uni/msci433/assignments/a4/DailyKos.csv")
@@ -72,6 +73,15 @@ partCcluster3PartCHC = dailykosCSV %>% filter(dkCutTreePartC == 3)
 partCcluster4PartCHC = dailykosCSV %>% filter(dkCutTreePartC == 4)
 plot(dkCutTreePartC)
 
+PartCval1 = tail(sort(colMeans(partCcluster1PartCHC)))
+print(PartCval1)
+PartCval2 = tail(sort(colMeans(partCcluster2PartCHC)))
+print(PartCval2)
+PartCval3 = tail(sort(colMeans(partCcluster3PartCHC)))
+print(PartCval3)
+PartCval4 = tail(sort(colMeans(partCcluster4PartCHC)))
+print(PartCval4)
+
 #kmeans clustering 4 clusters
 partckmeansDK = kmeans(dailykosCSV, centers = 4)
 partckmcluster1 = dailykosCSV %>% filter(partckmeansDK$cluster == 1)
@@ -80,6 +90,14 @@ partckmcluster3 = dailykosCSV %>% filter(partckmeansDK$cluster == 3)
 partckmcluster4 = dailykosCSV %>% filter(partckmeansDK$cluster == 4)
 table(partckmeansDK$cluster)
 
+partckmval1 = tail(sort(colMeans(partckmcluster1)))
+print(partckmval1)
+partckmval2 = tail(sort(colMeans(partckmcluster2)))
+print(partckmval2)
+partckmval3 = tail(sort(colMeans(partckmcluster3)))
+print(partckmval3)
+partckmval4 = tail(sort(colMeans(partckmcluster4)))
+print(partckmval4)
 #################################################################################
 #Q2)
 hubwayCSV = read.csv("/Users/mayyaral-atari/Desktop/work/uni/msci433/assignments/a4/HubwayTrips.csv")
@@ -99,12 +117,32 @@ hubwaykmcluster7 = normalizehubway %>% filter(kmeansHW$cluster == 7)
 hubwaykmcluster8 = normalizehubway %>% filter(kmeansHW$cluster == 8)
 hubwaykmcluster9 = normalizehubway %>% filter(kmeansHW$cluster == 9)
 hubwaykmcluster10 = normalizehubway %>% filter(kmeansHW$cluster == 10)
+tapply(hubwaykmcluster1$Duration, hubwaykmcluster1, mean)
+
+nonormalizedkmeansHW = kmeans(hubwayCSV, centers = 1)
+nonnormalizedhubwaykmcluster1 = hubwayCSV %>% filter(nonormalizedkmeansHW$cluster == 1)
+tapply(nonnormalizedhubwaykmcluster1$Duration, nonormalizedkmeansHW$cluster, mean)
 #Q2.c.i)
 hubwaykmcluster1centriod = colMeans(hubwaykmcluster1)
 print(hubwaykmcluster1centriod)
 
+partCkmeansHW = kmeans(normalizehubway, centers = 10)
+partChubwaykmcluster1 = normalizehubway %>% filter(partCkmeansHW$cluster == 1)
+partChubwaykmcluster2 = normalizehubway %>% filter(partCkmeansHW$cluster == 2)
+partChubwaykmcluster3 = normalizehubway %>% filter(partCkmeansHW$cluster == 3)
+partChubwaykmcluster4 = normalizehubway %>% filter(partCkmeansHW$cluster == 4)
 
 
+#Q2.c.ii)
+partCnonormalizedkmeansHW = kmeans(hubwayCSV, centers = 4)
+nonpartCnonnormalizedhubwaykmcluster1 = hubwayCSV %>% filter(partCnonormalizedkmeansHW$cluster == 1)
+tapply(nonpartCnonnormalizedhubwaykmcluster1$Duration, partCnonormalizedkmeansHW$cluster, mean)
+nonpartCnonnormalizedhubwaykmcluster2 = hubwayCSV %>% filter(partCnonormalizedkmeansHW$cluster == 2)
+tapply(nonpartCnonnormalizedhubwaykmcluster2$Duration, partCnonormalizedkmeansHW$cluster, mean)
+nonpartCnonnormalizedhubwaykmcluster3 = hubwayCSV %>% filter(partCnonormalizedkmeansHW$cluster == 3)
+tapply(nonpartCnonnormalizedhubwaykmcluster3$Duration, partCnonormalizedkmeansHW$cluster, mean)
+nonpartCnonnormalizedhubwaykmcluster4 = hubwayCSV %>% filter(partCnonormalizedkmeansHW$cluster == 4)
+tapply(nonpartCnonnormalizedhubwaykmcluster4$Duration, partCnonormalizedkmeansHW$cluster, mean)
 
 
 #################################################################################
@@ -137,7 +175,7 @@ ggplot(data = paroleCSV, aes(x = TimeServed)) + geom_histogram(binwidth=.1)
 #Q3.c.iii)
 ggplot(data = paroleCSV, aes(x = TimeServed)) + geom_histogram(binwidth=1) + facet_grid(Crime ~ .)
 #Q3.c.iv)
-ggplot(data = paroleCSV, aes(x = TimeServed, fill = "Crime")) + geom_histogram(binwidth=5,position = "identity",alpha=0.5)
+ggplot(data = paroleCSV, aes(x = TimeServed, fill = Crime)) + geom_histogram(binwidth=5,position = "identity",alpha=0.5)
 
 
 
